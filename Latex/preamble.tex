@@ -1,0 +1,64 @@
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{mathtools}
+\usepackage{qtree}
+\usepackage{subfiles}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{tocloft}
+
+\usepackage{titlepic}
+\usepackage{enumitem}
+\usepackage{lastpage}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[font=small]{caption, subcaption}
+\usepackage{float}
+
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Gustav Moesmand (s174169)}
+\chead{GEL - Project Report}
+\rhead{02507}
+\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+
+% Quick correctly proportioned curly brackets
+\newcommand{\lr}[1]{\left\{ #1 \right\}}
+% Boldsymbol quicker
+\newcommand{\bs}[1]{\boldsymbol{ #1 }}
+
+\title{Introduction to skeletonization and implementation of non-embedded distances}
+\author{
+    Gustav Lang Moesmand (s174169)\\\\
+    Supervisors:\\
+    Aasa Feragen\\
+    Eva Rotenberg\\
+    Jakob Andreas Bærentzen
+}
+
+\date{
+    22 January 2021
+}
+
+
+% Section Thingis
+\renewcommand{\cftsecnumwidth}{1em}
+%\renewcommand{\thesection}{}
+%\renewcommand{\thesubsection}{}
+%\renewcommand{\thesubsubsection}{}
+
+% Align Equation commands
+\renewcommand{\theequation}{\arabic{equation}}
+
+% Changes symbol around numbering
+\newtagform{rightdot}{(}{)}
+\usetagform{rightdot}
