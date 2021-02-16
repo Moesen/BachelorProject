@@ -36,4 +36,4 @@
 
 ## Example of how to measure, which catagory an image belongs to. 
 ### (Look at closest vertex to begin with, more sophisticated methods might be introduced later)
-![Test](Meeting1.png)
+![Test](Meeting1.PNG)
