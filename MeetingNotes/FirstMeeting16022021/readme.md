@@ -33,3 +33,7 @@
 ## Meetings, how often?
 **Q:** Writing alone, and might need some guidence, what should i expect in terms of accesibility to the different teachers? <br>
 **A:** Advisors don't have a lot of time on their hands, and there are multiple opinions on how to proceed with project so it is preffered, to have fewer meetings, that however enables multiple advisors to be present at the same time, heightening the quality of the meetings.
+
+## Example of how to measure, which catagory an image belongs to. 
+### (Look at closest vertex to begin with, more sophisticated methods might be introduced later)
+![Test](Meeting1.png)
