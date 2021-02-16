@@ -34,5 +34,6 @@
             ]
         }
     ],
-    "latex-workshop.latex.outDir": "./out/"
+    "latex-workshop.latex.outDir": "./out/",
+    "python.pythonPath": "venv\\Scripts\\python.exe"
 }
