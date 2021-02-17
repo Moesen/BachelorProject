@@ -1,3 +1,7 @@
 /GEL/
 **/venv/
 **/.vscode/
+
+./Data/*
+!./Data/download_datasets.py
+!./Data/download_locs.json
