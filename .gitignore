@@ -2,7 +2,7 @@
 **/venv/
 **/.vscode/
 
-./Data/**
-./Data/*
-!./Data/download_datasets.py
-!./Data/download_locs.json
+/Data/**
+/Data/*
+!/Data/download_datasets.py
+!/Data/download_locs.json
