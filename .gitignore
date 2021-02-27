@@ -1,7 +1,6 @@
-/GEL/
 **/venv/
 **/.vscode/
-
+    
 /Data/**
 /Data/*
 !/Data/download_datasets.py

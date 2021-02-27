@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.2.1)  22 FEB 2021 16:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.2.1)  26 FEB 2021 16:39
 entering extended mode
-**e:/GIT/Bachelor/Latex/JournalMachineLearning.tex
-(e:/GIT/Bachelor/Latex/JournalMachineLearning.tex
+**e:/GIT/Bachelor/Latex/ProjectPlan.tex
+(e:/GIT/Bachelor/Latex/ProjectPlan.tex
 LaTeX2e <2020-10-01> patch level 3
 L3 programming layer <2020-12-07> xparse <2020-03-03> ("C:\Program Files\MiKTeX\tex/latex/base\article.cls"
 Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
@@ -510,25 +510,25 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box78
 \@float@everytoks=\toks31
 \@floatcapt=\box79
-)) (e:\GIT\Bachelor\Latex\out\JournalMachineLearning.aux)
-\openout1 = `JournalMachineLearning.aux'.
+)) (e:\GIT\Bachelor\Latex\out\ProjectPlan.aux)
+\openout1 = `ProjectPlan.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -592,7 +592,7 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
 )
-Package hyperref Info: Link coloring OFF on input line 3.
+Package hyperref Info: Link coloring OFF on input line 15.
  ("C:\Program Files\MiKTeX\tex/latex/hyperref\nameref.sty"
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
  ("C:\Program Files\MiKTeX\tex/latex/refcount\refcount.sty"
@@ -602,52 +602,58 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count309
 )
-LaTeX Info: Redefining \ref on input line 3.
-LaTeX Info: Redefining \pageref on input line 3.
-LaTeX Info: Redefining \nameref on input line 3.
- (e:\GIT\Bachelor\Latex\out\JournalMachineLearning.out) (e:\GIT\Bachelor\Latex\out\JournalMachineLearning.out)
+LaTeX Info: Redefining \ref on input line 15.
+LaTeX Info: Redefining \pageref on input line 15.
+LaTeX Info: Redefining \nameref on input line 15.
+ (e:\GIT\Bachelor\Latex\out\ProjectPlan.out) (e:\GIT\Bachelor\Latex\out\ProjectPlan.out)
 \@outlinefile=\write3
-\openout3 = `JournalMachineLearning.out'.
+\openout3 = `ProjectPlan.out'.
 
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 3.
+(lastpage)             ! on input line 15.
 \c@lstlisting=\count310
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 28.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 17.
  ("C:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 28.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 17.
  ("C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{C:/Users/s174169/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+) [1
 
-] [2] (e:\GIT\Bachelor\Latex\out\JournalMachineLearning.bbl) 
+{C:/Users/s174169/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
+<datum/CoarseProjectPlan.png, id=55, 723.70375pt x 81.30376pt>
+File: datum/CoarseProjectPlan.png Graphic file (type png)
+<use datum/CoarseProjectPlan.png>
+Package pdftex.def Info: datum/CoarseProjectPlan.png  used on input line 38.
+(pdftex.def)             Requested size: 450.43253pt x 50.6038pt.
+ 
 AED: lastpage setting LastPage
-[3]
+[2 <./datum/CoarseProjectPlan.png>]
 
 Package caption Warning: Unused \captionsetup[sub] on input line 23.
 See the caption package documentation for explanation.
 
-(e:\GIT\Bachelor\Latex\out\JournalMachineLearning.aux)
-Package rerunfilecheck Info: File `JournalMachineLearning.out' has not changed.
-(rerunfilecheck)             Checksum: F6895DF42260138726027CAF5A7EEA8B;698.
+(e:\GIT\Bachelor\Latex\out\ProjectPlan.aux)
+Package rerunfilecheck Info: File `ProjectPlan.out' has not changed.
+(rerunfilecheck)             Checksum: 2F7F0B79AF2B22B241A4AB46F82CBD99;510.
  ) 
 Here is how much of TeX's memory you used:
- 11726 strings out of 479624
- 182338 string characters out of 2875018
- 624882 words of memory out of 3000000
- 28665 multiletter control sequences out of 15000+200000
- 407328 words of font info for 42 fonts, out of 3000000 for 9000
+ 11754 strings out of 479624
+ 182336 string characters out of 2875018
+ 620871 words of memory out of 3000000
+ 28683 multiletter control sequences out of 15000+200000
+ 410985 words of font info for 57 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,11n,72p,950b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\s174169\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on e:\GIT\Bachelor\Latex\out\JournalMachineLearning.pdf (3 pages, 95205 bytes).
+ 72i,11n,72p,730b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+Output written on e:\GIT\Bachelor\Latex\out\ProjectPlan.pdf (2 pages, 102686 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
- 15 named destinations out of 1000 (max. 500000)
- 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 96 PDF objects out of 1000 (max. 8388607)
+ 20 named destinations out of 1000 (max. 500000)
+ 78 words of extra memory for PDF output out of 10000 (max. 10000000)
 
