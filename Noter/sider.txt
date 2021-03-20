@@ -1,0 +1,1 @@
+https://www.quora.com/What-do-the-two-asterisks-signify-in-C++-when-passing-int-**array?share=1
