@@ -8,3 +8,4 @@ comp = re.sub("\s", "", comp)
 
 
 print("They are the same" if inp == comp else "They are not the same")
+
