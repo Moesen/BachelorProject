@@ -21,6 +21,19 @@ def create_dist_matrix(arr):
             dist_matrix[row][col] = dist
     return dist_matrix
 
+# Computes the distance in MNnist dimensions between input arr and input pnt
+# and returns the closest point
+def nearest_neighbours(arr: np.array, pnt: np.array) -> tuple((float, int)):
+    min_dist = float("inf")
+    idx = 0
+    for i, val in enumerate(arr):
+        dist = np.linalg.norm(val - pnt)
+        if dist < min_dist:
+            min_dist = dist
+            idx = i
+    return (min_dist, idx)
+    
+
 def connect_k_closest_points(g: graph.Graph, dist_matrix: np.array, k: int = 2, max_dist: float = 500):
     for idx, n in enumerate(g.nodes()):
         cur_row = dist_matrix[idx]
@@ -29,6 +42,8 @@ def connect_k_closest_points(g: graph.Graph, dist_matrix: np.array, k: int = 2, 
         for neighbour in closest_nodes:
             dist = cur_row[neighbour]
             if dist <= max_dist: 
+                if len(closest_nodes) > 1:
+                    print(1)
                 g.connect_nodes(n, neighbour)
 
 
