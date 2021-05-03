@@ -14,4 +14,4 @@
 #BSUB -e Error_%J.err
 
 echo "Running job"
-python graphprediction.py
+python calcclosest.py
