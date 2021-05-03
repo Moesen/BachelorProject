@@ -16,8 +16,6 @@ def create_dist_matrix(arr):
     for row in tqdm(range(len(arr))):
         for col in range(len(arr)):
             dist = np.linalg.norm(arr[row] - arr[col])
-            if dist == 0 and col != row:
-                print(row, col)
             dist_matrix[row][col] = dist
     return dist_matrix
 
@@ -42,10 +40,19 @@ def connect_k_closest_points(g: graph.Graph, dist_matrix: np.array, k: int = 2, 
         for neighbour in closest_nodes:
             dist = cur_row[neighbour]
             if dist <= max_dist: 
-                if len(closest_nodes) > 1:
-                    print(1)
                 g.connect_nodes(n, neighbour)
 
 
-def heatmap_from_dist_matrix(dist_matrix):
-    pass
+def heatdata_from_dist_matrix(dist_matrix, labels, np_func):
+    heat_data = np.zeros((10, 10), dtype=float)
+    for i in range(10): # Because 10 different numbers
+        row_dist_idx = np.where(labels==i)[0]
+        try:
+            row_dist_data = dist_matrix[row_dist_idx]    
+        except:
+            print(row_dist_idx)
+        for j in range(10):
+            col_dist_idx = np.where(labels==j)[0]
+            col_dist_data = row_dist_data[:,col_dist_idx]
+            heat_data[i, j] = np_func(col_dist_data)//1
+    return heat_data
