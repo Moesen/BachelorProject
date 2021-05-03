@@ -1,7 +1,7 @@
 #!/bin/sh
 ### General Options
 #BSUB -J KClosestNeighbours
-#BSUB -q kcn
+#BSUB -q hpc
 #BSUB -W 16:00
 #BSUB -n 1
 #BSUB -R "span[hosts=1]"
