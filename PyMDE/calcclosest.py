@@ -1,12 +1,13 @@
 import numpy as np
 import pymde
-import helper_functions as hf
+import helper_functions_hpc as hf
 from scipy.spatial import KDTree
+import _multiprocessing
 
 if __name__ == "__main__":
     mnist = pymde.datasets.MNIST()
-    unembedded = np.array(mnist.data)[:70000]
-    dist_matrix = hf.create_dist_matrix(unembedded)
+    unembedded = np.array(mnist.data)[:1000]
+    dist_matrix = hf.create_dist_matrix(unembedded, show_progress=False)
     
     k = 3
     max_dist = 1700

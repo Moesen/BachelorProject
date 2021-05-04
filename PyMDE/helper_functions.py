@@ -11,9 +11,10 @@ def disconnect_graph(gr: graph.Graph):
 # euclidian distance np.linalg.norm(a-b) 
 # https://stackoverflow.com/questions/1401712/how-can-the-euclidean-distance-be-calculated-with-numpy
 # Creates a distance matrix based on euclidian distance
-def create_dist_matrix(arr):
+def create_dist_matrix(arr, show_progress=True):
     dist_matrix = np.zeros((len(arr), len(arr)), dtype=np.float32)
-    for row in tqdm(range(len(arr))):
+    rng = tqdm(range(len(arr))) if show_progress else range(len(arr))
+    for row in rng:
         for col in range(len(arr)):
             dist = np.linalg.norm(arr[row] - arr[col])
             dist_matrix[row][col] = dist

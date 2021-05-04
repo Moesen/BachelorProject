@@ -11,7 +11,6 @@
 #BSUB -B
 #BSUB -N
 #BSUB -o Output_%J.out
-#BSUB -e Error_%J.err
 
 echo "Running job"
 python calcclosest.py

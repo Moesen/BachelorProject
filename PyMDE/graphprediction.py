@@ -16,14 +16,20 @@ class GraphAnalysis:
     # Loads mnist numbers.
     # Only loads certain labels, if labels specified (Default=ALL)
     # Only loads a certain amount if limit set (Default=1000)
-    def __init__(self, limit=1000, labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], preserve_neighbours=True, dist_matrix=None):
+    def __init__(self,  limit=1000, 
+                        labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 
+                        preserve_neighbours=True, 
+                        dist_matrix=None
+                        ):
+
+        print("Loading dataset")
         mnist = pymde.datasets.MNIST()
         self._mnist = mnist
         self.limit = limit
         mnist_labels = mnist.attributes["digits"][:limit]
         self._labels = mnist_labels[np.in1d(mnist_labels, labels)]
         
-        unembedded = np.array(mnist.data)[:limit]
+        unembedded = np.array(mnist.data)[:limit].astype("float")
         self._unembedded = unembedded[np.in1d(mnist_labels, labels)]
 
         if "tensor.pt" in os.listdir():
@@ -36,17 +42,23 @@ class GraphAnalysis:
             torch.save(embedded, "tensor.pt")
         self._embedded = embedded[np.in1d(mnist_labels, labels)]
 
+        print("Creating Graph")
+
         # Creating graph
         self._g = self._create_graph()
         pos = self._g.positions()
         for n, ppos in zip(self._g.nodes(), self._embedded):
             pos[n] = ppos
-
+        
+        print("Creating dist-matrix")
         # Creating dist_matrix
         if dist_matrix is not None:
             self._dist_matrix = dist_matrix
         else:
-            self._dist_matrix = hf.create_dist_matrix(self._unembedded)
+            arr = self._unembedded
+            self._dist_matrix = hf.create_dist_matrix(arr)
+        print("Symmetric dist_matrix", np.allclose(self._dist_matrix.transpose(), self._dist_matrix))
+        self.print_seperator_line()
 
     def _create_graph(self):
             g = self._g = graph.Graph()
@@ -97,6 +109,28 @@ class GraphAnalysis:
         self._skel_labels = skel_labels
         self._skel_unembed_pos = skel_non_embed
 
+    # MISC
+    def print_seperator_line(self):
+        print("".join("=" for _ in range(40)))
+        print("".join("=" for _ in range(40)))
+    
+    # Accurary testing
+    def test_accuracy(self, test_size=1000):
+        Y_test = self._mnist.attributes["digits"][self.limit:self.limit + test_size]
+        x_test = self._mnist.data[self.limit:self.limit + test_size].numpy()
+        guess = list()
+        print("Testing accurazy of skeleton")
+        for idx, val in tqdm(enumerate(x_test)):
+            dist, nearest_idx = hf.nearest_neighbours(self._skel_unembed_pos, val)
+            guess.append((self._skel_labels[nearest_idx], Y_test[idx]))
+        
+        tru, fal = 0, 0
+        for gue in guess:
+            if gue[0] == gue[1]: tru+=1
+            else: fal+= 1
+        
+        accuracy = (tru)/(tru+fal)
+        print(accuracy)
 
     # Fields
     def labels(self):       return self._labels
@@ -119,26 +153,9 @@ class GraphAnalysis:
     def load_distmatrix():
         return np.loadtxt("distmatrix.csv", delimiter=",")
 
-    # Accurary testing
-    def test_accuracy(self, test_size=1000):
-        Y_test = self._mnist.attributes["digits"][self.limit:self.limit + test_size]
-        x_test = self._mnist.data[self.limit:self.limit + test_size].numpy()
-        guess = list()
-        print("Testing accurazy of skeleton")
-        for idx, val in tqdm(enumerate(x_test)):
-            dist, nearest_idx = hf.nearest_neighbours(self._skel_unembed_pos, val)
-            guess.append((self._skel_labels[nearest_idx], Y_test[idx]))
-        
-        tru, fal = 0, 0
-        for gue in guess:
-            if gue[0] == gue[1]: tru+=1
-            else: fal+= 1
-        
-        accuracy = (tru)/(tru+fal)
-        print(accuracy)
 
 if __name__ == "__main__":
-    ganal = GraphAnalysis(limit=20000)
+    ganal = GraphAnalysis(limit=2000)
     
     ganal.connect_graph(max_dist=1700, neighbours=1)
     ganal.skeletonize_graph()
