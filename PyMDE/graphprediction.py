@@ -206,7 +206,7 @@ class GraphAnalysis:
 
 
 if __name__ == "__main__":
-    ganal = GraphAnalysis(limit=1000)
+    ganal = GraphAnalysis(limit=5000)
     
 
     ganal.connect_graph(max_dist=1700, neighbours=1)
