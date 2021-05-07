@@ -11,6 +11,8 @@ import sys
 import os
 import seaborn as sns
 import pandas as pd
+from collections import Counter
+
 
 class GraphAnalysis:
     _results_path = r"E:/GIT/Bachelor/PyMDE/Results/"
@@ -62,7 +64,6 @@ class GraphAnalysis:
         pos = self._g.positions()
         for n, ppos in zip(self._g.nodes(), self._embedded):
             pos[n] = ppos
-        
 
         # Creating dist_matrix
         if dist_matrix is not None:
@@ -72,8 +73,10 @@ class GraphAnalysis:
             print("Creating dist matrix")
             arr = self._unembedded
             self._dist_matrix = hf.create_dist_matrix(arr)
-            self.save_distmatrix()
-        print("Symmetric dist_matrix", np.allclose(self._dist_matrix.transpose(), self._dist_matrix))
+        try:
+            print("Symmetric dist_matrix", np.allclose(self._dist_matrix.transpose(), self._dist_matrix))
+        except:
+            print("Not enough space to check symmetri")
         self.print_seperator_line()
 
     def _create_graph(self):
@@ -110,6 +113,7 @@ class GraphAnalysis:
         hf.connect_k_closest_points(self._g, self._dist_matrix, k=neighbours, max_dist=max_dist)
     def skeletonize_graph(self): 
         self._skeleton, self._skel_map = graph.LS_skeleton_and_map(self._g)
+        self._skeleton.cleanup()
     
         
 
@@ -118,14 +122,22 @@ class GraphAnalysis:
         # Empty array for storing the new labels for each index of the skeleton
         self._skel_labels = np.zeros(len(self._skeleton.nodes()))
         self._skel_non_embed = np.zeros((len(self._skeleton.nodes()), 784))
-        self._skeleton.cleanup()
 
-        tree = KDTree(self._embedded)
-        pos = self._skeleton.positions()
-        for n in self._skeleton.nodes():
-            dist, idx = tree.query(pos[n])
-            self._skel_labels[n] = self._labels[idx]
-            self._skel_non_embed[n] = self._unembedded[idx]
+        skel_acum = {x: [] for x in range(0, len(self._skeleton.nodes()))}
+
+        # Gathering closest labels
+        for node, skel_map in zip(self._g.nodes(), self._skel_map):
+            if skel_map >= 0:
+                skel_acum[skel_map].append(int(self._labels[node]))
+        
+        skel_map = set(self._skel_map)
+        skel_nodes = set(self._skeleton.nodes())
+        print(skel_nodes - skel_map)
+        
+
+        # Labels with even amount of two or more labels
+        # Will have to be propogated at a later stage
+        naughty_boys = []
 
     # MISC
     def print_seperator_line(self):
@@ -159,7 +171,7 @@ class GraphAnalysis:
         if show: 
             plt.show()
 
-    def visualize_tests(self, show=True):
+    def visualize_tests(self,  test_size, show=True, save=True):
         if not hasattr(self, "_conf_matrix"):
             raise Exception("Tests not conducted yet.")        
 
@@ -177,10 +189,15 @@ class GraphAnalysis:
                     annot_kws={"size": 14}, 
                     fmt="g").set_title(f"Training size: {self._limit}, Testing size {test_size}")
         
-        os.listdir(self._results_path)
-        
-        name = "PredictHeatmap" + "_Num" + str(self._limit) + "_Testpoints"
-        plt.savefig(self._results_path + "PredictHeatmap.png", format="png")
+        files = os.listdir(self._results_path)
+        name = "PredictHeatmap" + "_Num" + str(self._limit) + "_TestPoints" + str(int(test_size))
+        files = list(filter(lambda x: name in x, files))
+        cnt = len(files)
+        name += "_" + str(cnt)
+
+        # plt.savefig(self._results_path + name + ".png", format="png")
+        if save: plt.savefig(self._results_path + "test.png", format="png")
+        if show: plt.show()
 
 
     # Fields
@@ -190,8 +207,10 @@ class GraphAnalysis:
     def g(self):            return self._g
     def dist_matrix(self):  return self._dist_matrix
     def skeleton(self):    
-        if self._skeleton:
+        if hasattr(self, "_skeleton"):
             return self._skeleton
+        else:
+            raise Exception("Skeleton not created yet")
     
     def save_graph(self):
         graph.save("graph.graph", self._g)
@@ -206,11 +225,11 @@ class GraphAnalysis:
 
 
 if __name__ == "__main__":
-    ganal = GraphAnalysis(limit=5000)
-    
+    ganal = GraphAnalysis(limit=1000)
 
-    ganal.connect_graph(max_dist=1700, neighbours=1)
+    ganal.connect_graph(max_dist=1700, neighbours=2)
     ganal.skeletonize_graph()
     ganal.relabel_skeleton()
-    ganal.test_accuracy(test_size=1000, show=False)
-    ganal.visualize_tests(show=False)
+    test_size = 100
+    ganal.test_accuracy(test_size=test_size, show=False)
+    ganal.visualize_tests(show=False, test_size=test_size, save=True)
