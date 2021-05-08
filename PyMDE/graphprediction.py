@@ -125,6 +125,22 @@ class GraphAnalysis:
     def skeletonize_graph(self): 
         self._skeleton, self._skel_map = graph.LS_skeleton_and_map(self._g) 
         
+    def _old_relabel(self):
+        self._skeleton = graph.LS_skeleton(self._g)
+        tree = KDTree(self._embedded)
+        self._skeleton.cleanup()
+
+        skel_labels = np.zeros(len(self._skeleton.nodes()))
+        skel_non_embed = np.zeros((len(self._skeleton.nodes()), 784))
+
+        pos = self._skeleton.positions()
+        for n in self._skeleton.nodes():
+            _, idx = tree.query(pos[n])
+            skel_labels[n] = self._labels[idx]
+            skel_non_embed[n] = self._unembedded[idx]
+
+        self._skel_labels = skel_labels
+        self._skel_unembed_pos = skel_non_embed
 
     # Current method 
     def relabel_skeleton(self):
