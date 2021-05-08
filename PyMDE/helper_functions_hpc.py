@@ -19,6 +19,7 @@ def nearest_neighbours(arr: np.array, pnt: np.array) -> tuple((float, int)):
     min_dist = float("inf")
     idx = 0
     for i, val in enumerate(arr):
+        if val == 0: break
         dist = np.linalg.norm(val - pnt)
         if dist < min_dist:
             min_dist = dist
