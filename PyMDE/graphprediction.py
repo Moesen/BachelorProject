@@ -1,3 +1,4 @@
+from math import dist
 from os import path
 from seaborn.palettes import color_palette
 import torch
@@ -15,6 +16,7 @@ import pandas as pd
 from collections import Counter
 import pathlib
 import json
+import itertools
 
 class GraphAnalysis:
     _cur_path = pathlib.Path(__file__).parent.absolute()
@@ -107,8 +109,15 @@ class GraphAnalysis:
         plt.tight_layout()
         plt.show()
 
-    def show_number(self, arr):
-        plt.imshow(arr.reshape(28, 28), cmap="gray")
+    def compare_avg_to_numbers(self, arr, g_ids):
+        imgs = [self._unembedded[gid].reshape(28, 28) for gid in g_ids]
+        fig, axs = plt.subplots(2, len(g_ids))
+        
+        axs[0, 0].imshow(arr.reshape(28, 28), cmap="gray")
+        for idx, img in enumerate(imgs):
+            axs[1, idx].imshow(img, cmap="gray")
+
+        plt.tight_layout()
         plt.show()
 
     def show_heatmap(self, np_func):
@@ -122,11 +131,14 @@ class GraphAnalysis:
         self._neighbours = neighbours
         self._max_dist = max_dist
         hf.connect_k_closest_points(self._g, self._dist_matrix, k=neighbours, max_dist=max_dist)
-    def skeletonize_graph(self): 
+    def skeletonize_graph(self):
+        print("Skeletonizing graph") 
         self._skeleton, self._skel_map = graph.LS_skeleton_and_map(self._g) 
+        print("Skeletonization done")
+        self.print_seperator_line()
+
         
     def _old_relabel(self):
-        self._skeleton = graph.LS_skeleton(self._g)
         tree = KDTree(self._embedded)
         self._skeleton.cleanup()
 
@@ -140,18 +152,19 @@ class GraphAnalysis:
             skel_non_embed[n] = self._unembedded[idx]
 
         self._skel_labels = skel_labels
-        self._skel_unembed_pos = skel_non_embed
+        self._skel_non_embed = skel_non_embed
 
     # Current method 
-    def relabel_skeleton(self):
+    def relabel_skeleton(self, only_same_label_pos=False):
+        print("Relabbeling skeleton")
         # Empty array for storing the new labels for each index of the skeleton
-        self._skel_labels = np.zeros(len(self._skeleton.nodes()))
+        self._skel_labels = np.zeros(len(self._skeleton.nodes())) - 1
         self._skel_non_embed = np.zeros((len(self._skeleton.nodes()), 784))
 
         skel_acum = {x: {} for x in range(0, len(self._skeleton.nodes()))}
 
         # Gathering closest labels
-        print("G nodes and skel_map same length: " + str(len(self._g.nodes()) == len(self._skel_map)))
+        print("G nodes and skel_map same length: " + str(len(self._g.nodes()) == len(self._skel_map)), len(self._g.nodes()))
         for g_node, skel_n in zip(self._g.nodes(), self._skel_map):
             lbl = self._labels[g_node]
             if skel_n >= 0:
@@ -159,8 +172,7 @@ class GraphAnalysis:
                     skel_acum[skel_n][lbl].append(g_node)
                 else:
                     skel_acum[skel_n][lbl] = [g_node]
-
-
+            
         naughty_boys = []
         # Checking most common labels
         # If count > 1 or == 0 there is either more than 1 common label on that vertex, or none at all
@@ -168,11 +180,11 @@ class GraphAnalysis:
         # If none it is helper vertex
         # Both needs to be propogated
         
-        for skel_n, skel_maps in skel_acum.items():
+        for skel_n, skel_maps in tqdm(skel_acum.items()):
             # If no nodes helper vertex that needs to be propogated
             if len(skel_maps) == 0: 
                 naughty_boys.append(skel_n)
-                break
+                continue
             
             mx = 0
             nds = []
@@ -186,13 +198,48 @@ class GraphAnalysis:
             # If more than one label, vertex needs to be propogated
             if len(nds) > 1: 
                 naughty_boys.append(skel_n)
-                break
+                continue
             
             label = list(nds[0].keys())[0]
-            g_ids = list(nds[0].values())[0]
+
+            if label == -1:
+                naughty_boys.append(skel_n)
+                continue
+            # This only puts the position of chosen label into account for higher dimensionens
+            if only_same_label_pos:
+                g_ids = list(nds[0].values())[0]
+            # This puts all positions of nodes in separator into account
+            else:
+                g_ids = list(itertools.chain(*skel_maps.values()))
             self._skel_labels[skel_n] = label
             avg = self._avg_position(g_ids)
             self._skel_non_embed[skel_n] = avg
+
+        self._propogate_naughty_boys(naughty_boys, skel_acum)
+
+    def _propogate_naughty_boys(self, naughty_boys: list, skel_acum: dict):
+        print("Propogating labels")
+        a, b = set(naughty_boys), set(np.where(self._skel_labels == -1)[0])
+        print(f"Naughty boys caught all unlabelled nodes: {len(a-b)==0 and len(b-a)==0}")
+        
+        for n in naughty_boys:
+            neighbours = list(self._skeleton.neighbors(n))
+            
+            if len(neighbours) == 0:
+                print("Nauthy boy not connected")
+                continue
+            
+            labels = [self._skel_labels[x] for x in neighbours if self._skel_labels[x] != -1.]
+            most_common = Counter(labels).most_common()
+            
+            if len(most_common) > 1:
+                print(most_common)
+            most_common_label = most_common[0][0]
+            self._skel_labels[n] = most_common_label
+
+
+        self.print_seperator_line()
+
 
     def _avg_position(self, node_ids):
         positions = [self._unembedded[node_id] for node_id in node_ids]
@@ -204,15 +251,15 @@ class GraphAnalysis:
         print("".join("=" for _ in range(40)))
         print("".join("=" for _ in range(40)))
     
-    def _view_graph(self, g: graph.Graph):
+    def _view_graph(self, g: graph.Graph, reset=False):
         viewer = gd.Viewer()
-        viewer.display(g)
+        viewer.display(g, reset_view=reset)
 
-    def view_graph(self): self._view_graph(self._g)
-    def view_skele(self): self._view_graph(self._skeleton)
+    def view_graph(self, reset=False): self._view_graph(self._g, reset=reset)
+    def view_skele(self, reset=False): self._view_graph(self._skeleton, reset=reset)
 
     # Accurary testing
-    def test_accuracy(self, test_size=1000, show=True):
+    def test_accuracy(self, test_size=1000, show=True) -> float:
         Y_test = self._mnist.attributes["digits"][self._limit:self._limit + test_size]
         x_test = self._mnist.data[self._limit:self._limit + test_size].numpy()
         guess = list()
@@ -237,6 +284,8 @@ class GraphAnalysis:
         self._conf_matrix = conf_matrix    
         if show: 
             plt.show()
+        
+        return self._test_accuracy
 
     def visualize_tests(self,  test_size, show=True, save=True, filename=None):
         if not hasattr(self, "_conf_matrix"):
@@ -294,13 +343,14 @@ class GraphAnalysis:
 
 
 if __name__ == "__main__":
-    ganal = GraphAnalysis(limit=1000)
+    ganal = GraphAnalysis(limit=500)
 
-    ganal.connect_graph(max_dist=1700, neighbours=2)
+    ganal.connect_graph(max_dist=1700, neighbours=3)
     ganal.skeletonize_graph()
     ganal.relabel_skeleton()
-    # ganal.show_heatmap(np_func=np.average)
-    test_size = 1000
-    ganal.test_accuracy(test_size=test_size, show=False)
-    ganal.visualize_tests(show=False, test_size=test_size, save=True, filename="test")
-    ganal.save_skeleton()
+    ganal.test_accuracy(test_size=1000)
+    ganal.visualize_tests(show=False, test_size=1000, filename="test")
+    # ganal.view_skele()
+    # print(np.where(ganal._skel_labels == -1))
+    # print(len(ganal._skeleton.nodes()))
+    # ganal.test_accuracy(test_size=1000)\
